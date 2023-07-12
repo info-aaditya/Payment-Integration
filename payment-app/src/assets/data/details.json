@@ -1,0 +1,15 @@
+{
+  "user": {
+    "name": "Jane Smith",
+    "username": "janesmith",
+    "email": "janesmith@example.com",
+    "phone": "9876543210",
+    "address": "456 Elm Street, Los Angeles, USA"
+  },
+
+  "product": {
+    "productId": "67890",
+    "productName": "Widget Y",
+    "amount": 500
+  }
+}

@@ -20,10 +20,85 @@ const styles = StyleSheet.create({
     color: '#05375a',
   },
 
+  // Modal Picker
+  modalContainer: {
+    position: 'absolute',
+    bottom: 50,
+    left: 20,
+    right: 20,
+    backgroundColor: '#F0F8FF',
+    borderRadius: 30,
+    paddingHorizontal: 20,
+    paddingBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 25,
+      height: 25,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+
+  pickerHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+
+  textView: {
+    alignSelf: 'center',
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: '#31728D',
+    letterSpacing: 0.3,
+    marginTop: 7,
+  },
+
+  iconView: {
+    fontSize: 18,
+    color: '#31728D',
+    paddingRight: 10
+  },
+
+  walletContainer: {
+    justifyContent: 'space-between',
+    marginVertical: 5,
+  },
+
+  wallet: {
+    alignSelf: 'center',
+    width: '70%',
+    marginTop: 10,
+  },
+
   bgContainer: {
     flex: 1,
     justifyContent: 'center',
-    resizeMode: 'cover',
+  },
+
+  optionContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 10,
+  },
+
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    backgroundColor: '#05375a',
+    width: '48%',
+    paddingVertical: 2,
+  },
+
+  optionText: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#008CDD',
   },
 
 });
