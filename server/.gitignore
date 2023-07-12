@@ -5,3 +5,6 @@ yarn-error.log
 
 # Yarn lockfile
 yarn.lock
+
+# env
+.env
