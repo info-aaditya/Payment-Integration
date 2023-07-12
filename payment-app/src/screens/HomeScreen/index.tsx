@@ -6,9 +6,11 @@ import UserDetails from '../../components/UserDetails';
 import EsewaPay from '../../components/PaymentMethod/EsewaPay';
 import KhaltiPay from '../../components/PaymentMethod/KhaltiPay';
 import StripePay from '../../components/PaymentMethod/StripePay';
+import details from '../../assets/data/details';
 import styles from './styles';
 
 const HomeScreen = () => {
+  const { user, product } = details;
   const [visible, setVisible] = useState(false); 
 
   return (
@@ -67,7 +69,7 @@ const HomeScreen = () => {
           </Pressable>
 
           <View style={styles.buttonContainer}>
-            <StripePay/>
+            <StripePay user={user} product={product} />
           </View>
         </View>
       </ImageBackground>

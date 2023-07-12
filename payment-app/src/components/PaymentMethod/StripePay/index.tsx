@@ -4,18 +4,18 @@ import { useStripe } from '@stripe/stripe-react-native';
 import { API_URL } from '../../../config';
 import styles from './styles';
 
-const StripePay = () => {
+const StripePay = ({ user, product }) => {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [loading, setLoading] = useState(false);
 
-  const fetchPaymentSheetParams = async (amount) => {
+  const fetchPaymentSheetParams = async (amount, user, product) => {
     try {
       const response = await fetch(`${API_URL}/payment-sheet`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ amount }),
+        body: JSON.stringify({ amount, user, product }),
       });
       if (!response.ok) {
         throw new Error('Failed to fetch payment sheet parameters');
@@ -33,14 +33,14 @@ const StripePay = () => {
     }
   };
 
-  const initializePaymentSheet = async (amount) => {
+  const initializePaymentSheet = async (amount, user, product) => {
     try {
       const {
         paymentIntent,
         ephemeralKey,
         customer,
         publishableKey,
-      } = await fetchPaymentSheetParams(amount);
+      } = await fetchPaymentSheetParams(amount, user, product);
 
       const { error } = await initPaymentSheet({
         merchantDisplayName: 'BARPA IT Solution',
@@ -49,9 +49,15 @@ const StripePay = () => {
         paymentIntentClientSecret: paymentIntent,
         allowsDelayedPaymentMethods: true, // Set it true if your business can handle payment methods that complete payment after a delay, like SEPA Debit and Sofort.
         defaultBillingDetails: {
-          name: 'Aaditya',
+          name: user.name,
+          email: user.email,
+        },
+        metadata: {
+          userDetails: JSON.stringify(user),
+          productDetails: JSON.stringify(product),
         },
       });
+
       if (!error) {
         setLoading(true);
       } else {
@@ -85,8 +91,8 @@ const StripePay = () => {
   };
 
   useEffect(() => {
-    const amount = 1099; // Set the dynamic amount here
-    initializePaymentSheet(amount).catch((error) => {
+    const amount = product.amount; // Set the dynamic amount here
+    initializePaymentSheet(amount, user, product).catch((error) => {
       Alert.alert('Error',
         'An error occurred while processing the payment. Please try again.'
       );
