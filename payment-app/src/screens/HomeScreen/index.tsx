@@ -39,10 +39,10 @@ const HomeScreen = () => {
 
           <View style={styles.walletContainer}>
             <View style={styles.wallet}>
-              <EsewaPay/>
+              <EsewaPay user={user} product={product} />
             </View>
             <View style={styles.wallet}>
-              <KhaltiPay/>
+              <KhaltiPay user={user} product={product} />
             </View>
           </View>
         </View>
