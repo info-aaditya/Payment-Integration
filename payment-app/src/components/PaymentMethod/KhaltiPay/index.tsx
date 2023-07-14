@@ -78,11 +78,81 @@ const KhaltiPay = () => {
 
   // Payment Success Callback
   const handleNavigation = (navState) => {
-    // Handle the navigation state change if needed
-    // Check if the payment is completed and close the modal
-    if (navState.url === 'https://example.com/payment/success') {
-      setVisible(false);
-      // Additional processing if required
+    const successCallbackUrl = 'https://example.com/payment/success';
+    const failureCallbackUrl = 'https://example.com/payment/failure';
+
+    if (navState.url === successCallbackUrl) {
+
+      // Handle successful payment
+      const urlParams = new URLSearchParams(navState.url);
+      const pidx = urlParams.get('pidx');
+      const transactionId = urlParams.get('transaction_id');
+      const amount = urlParams.get('amount');
+      const mobile = urlParams.get('mobile');
+      const purchaseOrderId = urlParams.get('purchase_order_id');
+      const purchaseOrderName = urlParams.get('purchase_order_name');
+
+      // Perform additional processing or update UI based on the payment success
+
+      // Show a success message with transaction details
+      const successMessage = `Payment Successful!
+        Transaction ID: ${transactionId}
+        Amount: ${amount} paisa
+        Mobile: ${mobile}
+        Purchase Order ID: ${purchaseOrderId}
+        Purchase Order Name: ${purchaseOrderName}`;
+
+      Alert.alert('Payment Success', successMessage);
+
+      verifyPayment(pidx); // Perform payment verification for lookup
+
+      // Additional actions or state updates can be performed here
+    } else if (navState.url === failureCallbackUrl) {
+      Alert.alert('Payment Failed',
+        'Sorry, the payment could not be processed.'
+      );
+    }
+  };
+
+  // Payment Verification
+  const verifyPayment = async (pidx) => {
+    try {
+      const payload = { pidx };
+
+      const response = await axios.post(
+        'https://a.khalti.com/api/v2/epayment/lookup/',
+        payload,
+        {
+          headers: {
+            'Authorization': `Key ${khaltiKey}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      const { status, transaction_id, total_amount, refunded } = response.data;
+
+      // Perform actions based on the payment status
+      if (status === 'Completed') {
+        Alert.alert('Congratulations! • 🚀 -💡',
+          '\n Payment is completed!!'
+        );
+      } else if (status === 'Pending') {
+        Alert.alert('Pending! • ⏳ -💡',
+          '\n Payment is awaiting confirmation!'
+        );
+      } else if (status === 'Refunded') {
+        Alert.alert('Refunded! • 🚩 -💡',
+          '\n Payment refund in progress!'
+        );
+      }
+
+      // Additional actions or state updates can be performed here
+    } catch (error) {
+      Alert.alert('Error',
+        '\n An error occurred while verifying the payment.'
+      );
+      console.error(error);
     }
   };
 
